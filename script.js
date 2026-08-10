@@ -93,6 +93,68 @@
     document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
   }
 
+  document.querySelectorAll("[data-credential-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector("[data-carousel-track]");
+    const previousButton = carousel.querySelector("[data-carousel-prev]");
+    const nextButton = carousel.querySelector("[data-carousel-next]");
+    const currentLabel = carousel.querySelector("[data-carousel-current]");
+    const totalLabel = carousel.querySelector("[data-carousel-total]");
+    const slides = [...carousel.querySelectorAll(".credential-slide")];
+
+    if (!track || !slides.length) return;
+
+    const formatNumber = (value) => String(value).padStart(2, "0");
+    const updateCarousel = () => {
+      const trackBounds = track.getBoundingClientRect();
+      const visibleIndexes = slides
+        .map((slide, index) => ({ index, bounds: slide.getBoundingClientRect() }))
+        .filter(({ bounds }) => {
+          const visibleWidth = Math.min(bounds.right, trackBounds.right) - Math.max(bounds.left, trackBounds.left);
+          return visibleWidth >= Math.min(bounds.width * 0.5, 80);
+        })
+        .map(({ index }) => index);
+
+      const first = (visibleIndexes[0] ?? 0) + 1;
+      const last = (visibleIndexes.at(-1) ?? 0) + 1;
+
+      if (currentLabel) {
+        currentLabel.textContent = first === last ? formatNumber(first) : `${formatNumber(first)}–${formatNumber(last)}`;
+      }
+      if (totalLabel) totalLabel.textContent = formatNumber(slides.length);
+
+      const maximumScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      if (previousButton) previousButton.disabled = track.scrollLeft <= 2;
+      if (nextButton) nextButton.disabled = track.scrollLeft >= maximumScroll - 2;
+    };
+
+    const moveCarousel = (direction) => {
+      const step = slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth;
+      track.scrollBy({ left: direction * step, behavior: reduceMotion ? "auto" : "smooth" });
+    };
+
+    previousButton?.addEventListener("click", () => moveCarousel(-1));
+    nextButton?.addEventListener("click", () => moveCarousel(1));
+    track.addEventListener("keydown", (event) => {
+      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+      event.preventDefault();
+      moveCarousel(event.key === "ArrowLeft" ? -1 : 1);
+    });
+
+    let updateFrame;
+    track.addEventListener("scroll", () => {
+      window.cancelAnimationFrame(updateFrame);
+      updateFrame = window.requestAnimationFrame(updateCarousel);
+    }, { passive: true });
+
+    if ("ResizeObserver" in window) {
+      new ResizeObserver(updateCarousel).observe(track);
+    } else {
+      window.addEventListener("resize", updateCarousel);
+    }
+
+    updateCarousel();
+  });
+
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 })();

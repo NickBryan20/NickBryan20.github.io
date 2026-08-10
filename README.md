@@ -20,9 +20,10 @@ No requiere frameworks, dependencias ni proceso de compilación.
 .
 ├── index.html          # Contenido, SEO y datos estructurados
 ├── styles.css         # Sistema visual y diseño responsive
-├── script.js          # Navegación y microinteracciones accesibles
+├── script.js          # Navegación, carrusel y microinteracciones accesibles
 ├── favicon.svg        # Favicon con las iniciales NB
 ├── ai-skills-fest-2026.png # Insignia de formación en IA
+├── certificados/      # Documentos PDF y vistas previas optimizadas
 ├── robots.txt         # Directivas para buscadores
 ├── sitemap.xml        # Mapa del sitio
 └── README.md          # Documentación

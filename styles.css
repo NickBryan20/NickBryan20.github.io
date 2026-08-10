@@ -663,7 +663,7 @@ h2 span {
 .stack-card h3,
 .project-card h3,
 .timeline-item h3,
-.degree-card h3 {
+.education-card h3 {
   margin: 0;
   line-height: 1.2;
   letter-spacing: -0.03em;
@@ -877,6 +877,34 @@ h2 span {
   margin-bottom: 15px;
 }
 
+.timeline-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.timeline-title-row > span {
+  padding: 5px 9px;
+  border: 1px solid rgba(85, 230, 189, 0.34);
+  border-radius: 999px;
+  background: rgba(85, 230, 189, 0.07);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.timeline-item-current .timeline-marker {
+  width: 12px;
+  height: 12px;
+  left: -37px;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px rgba(85, 230, 189, 0.16), 0 0 22px rgba(85, 230, 189, 0.32);
+}
+
 .timeline-item h3 {
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
 }
@@ -895,22 +923,17 @@ h2 span {
 
 .education-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
 
-.degree-card,
-.credentials-card {
+.education-card {
   position: relative;
-  min-height: 380px;
+  min-height: 320px;
   overflow: hidden;
   padding: clamp(28px, 5vw, 50px);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface);
-}
-
-.degree-card {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -919,62 +942,50 @@ h2 span {
     var(--surface);
 }
 
-.degree-card::before {
+.education-card::before {
   position: absolute;
-  top: 48px;
-  right: 48px;
-  width: 70px;
-  height: 70px;
+  top: 42px;
+  right: 42px;
+  width: 62px;
+  height: 62px;
   border-top: 1px solid var(--accent);
   border-right: 1px solid var(--accent);
   content: "";
 }
 
-.degree-card h3 {
-  max-width: 620px;
-  font-size: clamp(2rem, 4vw, 3.1rem);
+.education-card-index {
+  position: absolute;
+  top: 38px;
+  left: clamp(28px, 5vw, 50px);
+  color: rgba(229, 240, 243, 0.2);
+  font-family: var(--font-mono);
+  font-size: 2.4rem;
+  font-weight: 750;
+  line-height: 1;
 }
 
-.degree-card > p:not(.card-label) {
+.education-card h3 {
+  margin: 0;
+  max-width: 620px;
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.education-card > p:not(.card-label) {
   margin: 18px 0 0;
   color: var(--muted);
 }
 
-.degree-line {
-  width: 100%;
-  height: 1px;
-  margin-top: 34px;
-  background: linear-gradient(90deg, var(--accent), var(--blue), transparent);
-}
-
-.credential-overview {
-  display: grid;
-  grid-template-columns: minmax(110px, 0.42fr) 1fr;
-  gap: clamp(22px, 4vw, 38px);
-  align-items: center;
-}
-
-.credential-overview img {
-  width: min(100%, 190px);
-  margin-inline: auto;
-  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.28));
-}
-
-.credential-overview .card-label {
-  margin-bottom: 14px;
-}
-
-.credential-overview h3 {
-  margin: 0;
-  font-size: clamp(1.45rem, 2.7vw, 2.15rem);
-  line-height: 1.18;
-  letter-spacing: -0.035em;
-}
-
-.credential-overview p:last-child {
-  margin: 16px 0 0;
-  color: var(--muted);
-  font-size: 0.9rem;
+.education-status {
+  align-self: flex-start;
+  margin-top: 26px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
 }
 
 .credentials-heading {
@@ -998,31 +1009,156 @@ h2 span {
   color: var(--muted);
 }
 
-.credential-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+.credential-carousel {
   margin-top: 34px;
 }
 
-.credential-card {
-  min-height: 215px;
-  padding: 28px;
+.credential-carousel-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.credential-carousel-count {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.credential-carousel-count span:first-child {
+  color: var(--accent);
+}
+
+.credential-carousel-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.credential-carousel-controls button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease, opacity 180ms ease;
+}
+
+.credential-carousel-controls button:hover:not(:disabled),
+.credential-carousel-controls button:focus-visible {
+  border-color: var(--accent);
+  background: rgba(85, 230, 189, 0.08);
+  color: var(--accent);
+}
+
+.credential-carousel-controls button:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.credential-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 28px) / 3);
+  gap: 14px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 2px 2px 12px;
+  scroll-behavior: smooth;
+  scroll-snap-type: inline mandatory;
+  scrollbar-width: none;
+}
+
+.credential-track::-webkit-scrollbar {
+  display: none;
+}
+
+.credential-track:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-sm);
+}
+
+.credential-slide {
+  min-width: 0;
+  min-height: 455px;
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: rgba(11, 23, 29, 0.72);
+  display: grid;
+  grid-template-rows: 235px 1fr;
+  overflow: hidden;
+  scroll-snap-align: start;
   transition: transform 200ms ease, border-color 200ms ease, background-color 200ms ease;
 }
 
-.credential-card:hover {
+.credential-slide:hover {
   transform: translateY(-3px);
   border-color: rgba(85, 230, 189, 0.36);
   background: var(--surface-raised);
 }
 
-.credential-card > span {
-  display: block;
-  margin-bottom: 20px;
+.credential-preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  overflow: hidden;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  background: #eef2f3;
+}
+
+.credential-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 240ms ease;
+}
+
+.credential-preview-badge {
+  background: linear-gradient(145deg, #dff7e1, #eef8ff);
+}
+
+.credential-preview-badge img {
+  width: min(72%, 190px);
+}
+
+.credential-preview > span {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  padding: 8px 11px;
+  border-radius: 999px;
+  background: rgba(3, 12, 16, 0.88);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.credential-preview:hover img,
+.credential-preview:focus-visible img {
+  transform: scale(1.025);
+}
+
+.credential-slide-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 24px;
+}
+
+.credential-slide-body > p {
+  margin: 0 0 16px;
   color: var(--accent);
   font-family: var(--font-mono);
   font-size: 0.66rem;
@@ -1031,17 +1167,20 @@ h2 span {
   text-transform: uppercase;
 }
 
-.credential-card h3 {
+.credential-slide-body h4 {
   margin: 0;
-  font-size: 1.08rem;
+  overflow-wrap: anywhere;
+  font-size: 1.05rem;
   line-height: 1.32;
   letter-spacing: -0.025em;
 }
 
-.credential-card p {
-  margin: 18px 0 0;
+.credential-slide-body > span {
+  margin-top: auto;
+  padding-top: 18px;
   color: var(--muted);
   font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 .framework-note {
@@ -1229,13 +1368,12 @@ h2 span {
     grid-template-columns: 1fr;
   }
 
-  .credential-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .credential-track {
+    grid-auto-columns: calc((100% - 14px) / 2);
   }
 
-  .degree-card,
-  .credentials-card {
-    min-height: 320px;
+  .education-card {
+    min-height: 290px;
   }
 }
 
@@ -1415,6 +1553,15 @@ h2 span {
     font-size: clamp(2.5rem, 13vw, 3.6rem);
   }
 
+  .credential-track {
+    grid-auto-columns: min(86%, 390px);
+  }
+
+  .credential-slide {
+    min-height: 440px;
+    grid-template-rows: 220px 1fr;
+  }
+
   .principle-card {
     grid-template-columns: 38px 1fr;
     gap: 12px;
@@ -1437,31 +1584,44 @@ h2 span {
     gap: 12px;
   }
 
-  .credential-overview {
-    grid-template-columns: 100px 1fr;
+  .credential-track {
+    grid-auto-columns: 91%;
   }
 
-  .credential-grid {
-    grid-template-columns: 1fr;
+  .credential-carousel-toolbar {
+    margin-bottom: 14px;
   }
 
-  .credential-card {
-    min-height: 0;
+  .credential-carousel-controls button {
+    width: 42px;
+    height: 42px;
   }
 
-  .degree-card,
-  .credentials-card {
-    min-height: 0;
+  .credential-slide {
+    min-height: 425px;
+    grid-template-rows: 200px 1fr;
+  }
+
+  .credential-slide-body {
+    padding: 21px;
+  }
+
+  .education-card {
+    min-height: 270px;
     padding: 28px 22px;
   }
 
-  .degree-card {
-    padding-top: 140px;
+  .education-card-index {
+    top: 28px;
+    left: 22px;
+    font-size: 2rem;
   }
 
-  .degree-card::before {
-    top: 32px;
-    right: 32px;
+  .education-card::before {
+    top: 28px;
+    right: 28px;
+    width: 52px;
+    height: 52px;
   }
 
   .contact {
