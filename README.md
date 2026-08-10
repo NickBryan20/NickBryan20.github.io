@@ -22,6 +22,7 @@ No requiere frameworks, dependencias ni proceso de compilación.
 ├── styles.css         # Sistema visual y diseño responsive
 ├── script.js          # Navegación y microinteracciones accesibles
 ├── favicon.svg        # Favicon con las iniciales NB
+├── ai-skills-fest-2026.png # Insignia de formación en IA
 ├── robots.txt         # Directivas para buscadores
 ├── sitemap.xml        # Mapa del sitio
 └── README.md          # Documentación

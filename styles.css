@@ -700,6 +700,11 @@ h2 span {
   background: var(--surface);
 }
 
+.stack-card-wide {
+  grid-column: 1 / -1;
+  min-height: auto;
+}
+
 .stack-card-title {
   display: flex;
   gap: 18px;
@@ -942,27 +947,120 @@ h2 span {
   background: linear-gradient(90deg, var(--accent), var(--blue), transparent);
 }
 
-.credentials-card ul {
-  margin: 0;
-  padding: 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-}
-
-.credentials-card li {
-  display: flex;
-  gap: 18px;
+.credential-overview {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.42fr) 1fr;
+  gap: clamp(22px, 4vw, 38px);
   align-items: center;
-  padding: 15px 0;
-  border-bottom: 1px solid var(--line);
-  color: var(--muted-strong);
-  font-size: 0.92rem;
 }
 
-.credentials-card li span {
+.credential-overview img {
+  width: min(100%, 190px);
+  margin-inline: auto;
+  filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.28));
+}
+
+.credential-overview .card-label {
+  margin-bottom: 14px;
+}
+
+.credential-overview h3 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2.7vw, 2.15rem);
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+
+.credential-overview p:last-child {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.credentials-heading {
+  max-width: 720px;
+  margin-top: 76px;
+}
+
+.credentials-heading .section-index {
+  margin-bottom: 16px;
+}
+
+.credentials-heading h3 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.credentials-heading > p:last-child {
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+
+.credential-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.credential-card {
+  min-height: 215px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(11, 23, 29, 0.72);
+  transition: transform 200ms ease, border-color 200ms ease, background-color 200ms ease;
+}
+
+.credential-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(85, 230, 189, 0.36);
+  background: var(--surface-raised);
+}
+
+.credential-card > span {
+  display: block;
+  margin-bottom: 20px;
   color: var(--accent);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.credential-card h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.32;
+  letter-spacing: -0.025em;
+}
+
+.credential-card p {
+  margin: 18px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.framework-note {
+  margin-top: 18px;
+  padding: 22px 26px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: rgba(85, 230, 189, 0.035);
+}
+
+.framework-note p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.framework-note span {
+  color: var(--text);
+  font-weight: 750;
 }
 
 .contact {
@@ -1002,7 +1100,15 @@ h2 span {
   font-size: 1.05rem;
 }
 
-.contact-email {
+.contact-primary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.contact-email,
+.contact-phone {
   display: inline-flex;
   gap: 12px;
   align-items: center;
@@ -1012,6 +1118,11 @@ h2 span {
   font-size: clamp(1rem, 2.4vw, 1.35rem);
   font-weight: 760;
   letter-spacing: -0.02em;
+}
+
+.contact-phone {
+  border-bottom-color: var(--blue);
+  color: var(--blue);
 }
 
 .contact-links {
@@ -1118,6 +1229,10 @@ h2 span {
     grid-template-columns: 1fr;
   }
 
+  .credential-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .degree-card,
   .credentials-card {
     min-height: 320px;
@@ -1214,6 +1329,10 @@ h2 span {
 
   .stack-grid {
     grid-template-columns: 1fr;
+  }
+
+  .stack-card-wide {
+    grid-column: auto;
   }
 
   .stack-card {
@@ -1318,6 +1437,18 @@ h2 span {
     gap: 12px;
   }
 
+  .credential-overview {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .credential-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .credential-card {
+    min-height: 0;
+  }
+
   .degree-card,
   .credentials-card {
     min-height: 0;
@@ -1341,7 +1472,8 @@ h2 span {
     font-size: clamp(3.2rem, 17vw, 5.5rem);
   }
 
-  .contact-email {
+  .contact-email,
+  .contact-phone {
     font-size: 0.9rem;
   }
 }
