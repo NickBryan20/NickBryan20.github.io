@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 48" role="img" aria-labelledby="title desc">
+  <title id="title">Nick Bryan López Reina</title>
+  <desc id="desc">Logotipo profesional con monograma NB</desc>
+  <rect x="1" y="1" width="46" height="46" rx="7" fill="#0b1b2c" stroke="#63b3df" stroke-width="1.5"/>
+  <text x="8" y="34" fill="#f1f5f9" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" letter-spacing="-2">N<tspan fill="#63b3df">B</tspan></text>
+  <text x="60" y="21" fill="#f1f5f9" font-family="Arial, Helvetica, sans-serif" font-size="13" font-weight="700" letter-spacing="1.7">NICK BRYAN</text>
+  <text x="60" y="36" fill="#9cacc0" font-family="Arial, Helvetica, sans-serif" font-size="8" font-weight="600" letter-spacing="1.35">LÓPEZ REINA · SOFTWARE</text>
+</svg>

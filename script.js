@@ -155,6 +155,113 @@
     updateCarousel();
   });
 
+  const projectForm = document.querySelector("[data-project-form]");
+
+  if (projectForm) {
+    const steps = [...projectForm.querySelectorAll("[data-form-step]")];
+    const backButton = projectForm.querySelector("[data-form-back]");
+    const nextButton = projectForm.querySelector("[data-form-next]");
+    const submitButton = projectForm.querySelector("[data-form-submit]");
+    const currentLabel = projectForm.querySelector("[data-form-current]");
+    const totalLabel = projectForm.querySelector("[data-form-total]");
+    const progress = projectForm.querySelector("[data-form-progress]");
+    const error = projectForm.querySelector("[data-form-error]");
+    const announcement = projectForm.querySelector("[data-form-announcement]");
+    let currentStep = 0;
+
+    const twoDigits = (value) => String(value).padStart(2, "0");
+
+    const updateForm = (moveFocus = false) => {
+      steps.forEach((step, index) => {
+        const active = index === currentStep;
+        step.classList.toggle("is-active", active);
+        step.toggleAttribute("inert", !active);
+        step.setAttribute("aria-hidden", String(!active));
+      });
+
+      if (currentLabel) currentLabel.textContent = twoDigits(currentStep + 1);
+      if (totalLabel) totalLabel.textContent = twoDigits(steps.length);
+      if (progress) progress.style.width = `${((currentStep + 1) / steps.length) * 100}%`;
+      if (backButton) backButton.disabled = currentStep === 0;
+      if (nextButton) nextButton.hidden = currentStep === steps.length - 1;
+      if (submitButton) submitButton.hidden = currentStep !== steps.length - 1;
+      if (error) error.textContent = "";
+
+      const legend = steps[currentStep]?.querySelector("legend")?.textContent?.trim() || "Pregunta";
+      if (announcement) announcement.textContent = `Paso ${currentStep + 1} de ${steps.length}: ${legend}`;
+
+      if (moveFocus) {
+        const firstField = steps[currentStep]?.querySelector("input, textarea, select");
+        firstField?.focus({ preventScroll: true });
+      }
+    };
+
+    const validateCurrentStep = () => {
+      const fields = [...steps[currentStep].querySelectorAll("input, textarea, select")];
+      const invalidField = fields.find((field) => !field.checkValidity());
+
+      if (!invalidField) return true;
+
+      if (error) error.textContent = "Completa la información solicitada para continuar.";
+      invalidField.reportValidity();
+      invalidField.focus();
+      return false;
+    };
+
+    nextButton?.addEventListener("click", () => {
+      if (!validateCurrentStep()) return;
+      currentStep = Math.min(currentStep + 1, steps.length - 1);
+      updateForm(true);
+    });
+
+    backButton?.addEventListener("click", () => {
+      currentStep = Math.max(currentStep - 1, 0);
+      updateForm(true);
+    });
+
+    projectForm.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" || event.target.matches("textarea, button")) return;
+      if (currentStep >= steps.length - 1) return;
+      event.preventDefault();
+      nextButton?.click();
+    });
+
+    projectForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!validateCurrentStep()) return;
+
+      const data = new FormData(projectForm);
+      const value = (name, fallback = "No especificado") => String(data.get(name) || fallback).trim();
+      const subject = `Consulta de proyecto — ${value("nombre")}`;
+      const body = [
+        "Hola Nick,",
+        "",
+        "Quisiera conversar sobre el siguiente proyecto:",
+        "",
+        `TIPO DE PROYECTO\n${value("tipo")}`,
+        `PROBLEMA A RESOLVER\n${value("problema")}`,
+        `RESULTADO ESPERADO\n${value("solucion")}`,
+        `ESTADO ACTUAL\n${value("estado")}`,
+        `RECURSOS DISPONIBLES\n${value("recursos")}`,
+        `ALCANCE E INTEGRACIONES\n${value("alcance")}`,
+        `PLAZO\n${value("plazo")}`,
+        `FECHA O URGENCIA\n${value("fecha")}`,
+        `PRESUPUESTO\n${value("presupuesto")}`,
+        `MODALIDAD\n${value("modalidad")}`,
+        "DATOS DE CONTACTO",
+        `Nombre: ${value("nombre")}`,
+        `Empresa: ${value("organizacion")}`,
+        `Correo: ${value("email")}`,
+        `Teléfono: ${value("telefono")}`,
+        `Canal preferido: ${value("canal")}`
+      ].join("\n\n");
+
+      window.location.href = `mailto:nickbryan20@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+
+    updateForm();
+  }
+
   const year = document.querySelector("[data-year]");
   if (year) year.textContent = String(new Date().getFullYear());
 })();
