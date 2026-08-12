@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /certificados/
+Disallow: /ai-skills-fest-2026.png
 
 Sitemap: https://nickbryan20.github.io/sitemap.xml
