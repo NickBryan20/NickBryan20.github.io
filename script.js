@@ -232,29 +232,48 @@
 
       const data = new FormData(projectForm);
       const value = (name, fallback = "No especificado") => String(data.get(name) || fallback).trim();
-      const subject = `Consulta de proyecto — ${value("nombre")}`;
+      const section = (number, title, items) => [
+        `[ ${number} · ${title.toUpperCase()} ]`,
+        "",
+        ...items.flatMap(([label, content]) => [`${label}`, `${content}`, ""])
+      ];
+      const divider = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+      const subject = `Consulta de proyecto | ${value("tipo")} | ${value("nombre")}`;
       const body = [
+        divider,
+        "              CONSULTA DE PROYECTO",
+        divider,
+        "",
         "Hola Nick,",
         "",
-        "Quisiera conversar sobre el siguiente proyecto:",
+        "Me gustaría conversar sobre este proyecto. Comparto un resumen para facilitar la revisión:",
         "",
-        `TIPO DE PROYECTO\n${value("tipo")}`,
-        `PROBLEMA A RESOLVER\n${value("problema")}`,
-        `RESULTADO ESPERADO\n${value("solucion")}`,
-        `ESTADO ACTUAL\n${value("estado")}`,
-        `RECURSOS DISPONIBLES\n${value("recursos")}`,
-        `ALCANCE E INTEGRACIONES\n${value("alcance")}`,
-        `PLAZO\n${value("plazo")}`,
-        `FECHA O URGENCIA\n${value("fecha")}`,
-        `PRESUPUESTO\n${value("presupuesto")}`,
-        `MODALIDAD\n${value("modalidad")}`,
-        "DATOS DE CONTACTO",
-        `Nombre: ${value("nombre")}`,
-        `Empresa: ${value("organizacion")}`,
-        `Correo: ${value("email")}`,
-        `Teléfono: ${value("telefono")}`,
-        `Canal preferido: ${value("canal")}`
-      ].join("\n\n");
+        ...section("01", "Contexto del proyecto", [
+          ["Tipo de proyecto", value("tipo")],
+          ["Problema u oportunidad", value("problema")],
+          ["Resultado esperado", value("solucion")]
+        ]),
+        ...section("02", "Alcance y recursos", [
+          ["Estado actual", value("estado")],
+          ["Recursos disponibles", value("recursos")],
+          ["Alcance e integraciones", value("alcance")]
+        ]),
+        ...section("03", "Planificación", [
+          ["Plazo estimado", value("plazo")],
+          ["Fecha o nivel de urgencia", value("fecha")],
+          ["Presupuesto", value("presupuesto")],
+          ["Modalidad de trabajo", value("modalidad")]
+        ]),
+        ...section("04", "Datos de contacto", [
+          ["Nombre", value("nombre")],
+          ["Empresa u organización", value("organizacion")],
+          ["Correo", value("email")],
+          ["Teléfono", value("telefono")],
+          ["Canal preferido", value("canal")]
+        ]),
+        divider,
+        "Gracias. Quedo atento/a para coordinar una primera conversación."
+      ].join("\n");
 
       window.location.href = `mailto:nickbryan20@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
